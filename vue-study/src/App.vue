@@ -65,11 +65,20 @@ const yingyu = ref(100)
 
   //生命周期
   import {onMounted, onUpdated, onUnmounted} from 'vue'
+  onMountedbefore(() => {
+    console.log("组件挂载之前")
+  })
   onMounted(() => {
     console.log("组件挂载完成")
   })
+  onUpdatedbefore(() => {
+    console.log("组件更新之前")
+  })
   onUpdated(() => {
     console.log("组件更新完成")
+  })
+  onUnmountedbefore(() => {
+    console.log("组件卸载之前")
   })
   onUnmounted(() => {
     console.log("组件卸载完成")
