@@ -63,6 +63,18 @@ const yingyu = ref(100)
     return zongfen.value / 3
   })
 
+  //生命周期
+  import {onMounted, onUpdated, onUnmounted} from 'vue'
+  onMounted(() => {
+    console.log("组件挂载完成")
+  })
+  onUpdated(() => {
+    console.log("组件更新完成")
+  })
+  onUnmounted(() => {
+    console.log("组件卸载完成")
+  })
+
 </script>
 
 <template>
