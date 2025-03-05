@@ -1,6 +1,6 @@
 <script setup>
 // 引入Vue的ref函数，用于创建响应式引用
-import {ref} from 'vue'
+import {computed, ref} from 'vue'
 // 创建一个响应式引用，初始值为'装逼让你飞起来'
 const message = ref('装逼让你飞起来')
 // 创建一个响应式引用，初始值为包含HTML标签的字符串
@@ -24,6 +24,45 @@ function add(){
 function jian(){
   num.value--
 }
+  const dy = ref({
+    name:'哪吒',
+    shouzhong:'广泛',
+    juqing:'有趣',
+    texiao:'华丽',
+    piaofang:'1000万'
+  })
+
+  const dypj = computed(() => {
+    console.log("计算属性被调用了")
+    return dy.shouzhong == '广泛' 
+    && dy.juqing == '有趣'
+    && dy.texiao == '华丽' 
+    && dy.piaofang == '1000万'
+    ? '推荐' 
+    : '不推荐'
+  })
+
+  function dypjfun() {
+    console.log("方法被调用了")
+    return dy.shouzhong == '广泛' 
+    && dy.juqing == '有趣' 
+    && dy.texiao == '华丽' 
+    && dy.piaofang == '1000万'
+    ? '推荐' 
+    : '不推荐'
+  }
+
+const shuxue = ref(100)
+const yuwen = ref(100)
+const yingyu = ref(100)
+
+  const zongfen = computed(() => {
+    return shuxue.value + yuwen.value + yingyu.value
+  })
+  const pingjunfen = computed(() => {
+    return zongfen.value / 3
+  })
+
 </script>
 
 <template>
@@ -43,6 +82,32 @@ function jian(){
       <button @click="add()">增加</button>
       {{num}}
       <button @click="jian()">减少</button>
+    </div>
+
+    <div>
+      电影《{{ dy.name }}》是{{ dypj }}
+    </div>
+     <div>
+      电影《{{ dy.name }}》是{{ dypjfun() }}
+    </div>
+    <div>
+      {{dy.piaofang}}
+      {{dy.texiao}}
+    </div>
+    <div>
+      <button @click="dy.piaofang = '2000万'">调整票房</button>
+      <button @click="dy.texiao = '一般'">调整特效</button>
+    </div>
+
+    <h1> {{ message }} </h1>
+    <input type="message" v-model="message">
+
+    <div>
+      <p>语文：<input type="number" v-model="yuwen"></p>
+      <p>数学：<input type="number" v-model="shuxue"></p>
+      <p>英语：<input type="number" v-model="yingyu"></p>
+      <p>总分：{{ zongfen }}</p>
+      <p>平均分：{{ pingjunfen }}</p>
     </div>
   </div>
 </template>
