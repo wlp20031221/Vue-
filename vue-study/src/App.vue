@@ -1,6 +1,6 @@
 <script setup>
 // 引入Vue的ref函数，用于创建响应式引用
-import {computed, ref} from 'vue'
+import {computed, reactive, ref} from 'vue'
 // 创建一个响应式引用，初始值为'装逼让你飞起来'
 const message = ref('装逼让你飞起来')
 // 创建一个响应式引用，初始值为包含HTML标签的字符串
@@ -64,25 +64,42 @@ const yingyu = ref(100)
   })
 
   //生命周期
-  import {onMounted, onUpdated, onUnmounted} from 'vue'
-  onMountedbefore(() => {
-    console.log("组件挂载之前")
+  // import {onMounted, onUpdated, onUnmounted} from 'vue'
+  // onMountedbefore(() => {
+  //   console.log("组件挂载之前")
+  // })
+  // onMounted(() => {
+  //   console.log("组件挂载完成")
+  // })
+  // onUpdatedbefore(() => {
+  //   console.log("组件更新之前")
+  // })
+  // onUpdated(() => {
+  //   console.log("组件更新完成")
+  // })
+  // onUnmountedbefore(() => {
+  //   console.log("组件卸载之前")
+  // })
+  // onUnmounted(() => {
+  //   console.log("组件卸载完成")
+  // })
+  
+  // v-if、v-for、v-show的结合使用
+  const stuKeys = reactive({
+    id:'学号(id)',
+    name:'姓名(name)',
+    live:'宿舍(live)',
+    score:'成绩(score)'
   })
-  onMounted(() => {
-    console.log("组件挂载完成")
-  })
-  onUpdatedbefore(() => {
-    console.log("组件更新之前")
-  })
-  onUpdated(() => {
-    console.log("组件更新完成")
-  })
-  onUnmountedbefore(() => {
-    console.log("组件卸载之前")
-  })
-  onUnmounted(() => {
-    console.log("组件卸载完成")
-  })
+
+  const stu = reactive([
+    {id:22102201,name:'张三',live:'一善书院',score:90},
+    {id:22102202,name:'李四',live:'双馨书院',score:85},
+    {id:22102203,name:'王五',live:'三创书院',score:70},
+    {id:22102204,name:'刘六',live:'四实书院',score:60},
+    {id:22102205,name:'陈七',live:'八方书院',score:59},
+    {id:22102206,name:'赵八',live:'拾徳书院',score:15},
+  ])
 
 </script>
 
@@ -130,7 +147,25 @@ const yingyu = ref(100)
       <p>总分：{{ zongfen }}</p>
       <p>平均分：{{ pingjunfen }}</p>
     </div>
+
+    <div>
+      <table border="1">
+          <thead>
+            <tr>
+              <th v-for="key in stuKeys" :key="key">{{ key }}</th>
+            </tr>
+          </thead>
+          <tbody>
+        <tr v-for="student in stu " :key="student.id">
+          <td v-for="(v,k) in stuKeys" :key="k">{{ student[k]}}</td>
+          <td v-if="student.score >= 60" v-show="true">及格</td>
+          <td v-if="student.score <= 59" v-show="true">挂科</td>
+      </tr>
+          </tbody>
+      </table>
+    </div>
   </div>
+
 </template>
 
 <style scoped>
