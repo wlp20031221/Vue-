@@ -89,8 +89,9 @@ const yingyu = ref(100)
     id:'学号(id)',
     name:'姓名(name)',
     live:'宿舍(live)',
-    score:'成绩(score)'
+    score:'成绩(score)',
   })
+  const role = ref('')
 
   const stu = reactive([
     {id:22102201,name:'张三',live:'一善书院',score:90},
@@ -100,6 +101,13 @@ const yingyu = ref(100)
     {id:22102205,name:'陈七',live:'八方书院',score:59},
     {id:22102206,name:'赵八',live:'拾徳书院',score:15},
   ])
+
+  const test = ref('')
+
+  function newInput(){
+    console.log(test.value);
+    
+  }
 
 </script>
 
@@ -149,6 +157,7 @@ const yingyu = ref(100)
     </div>
 
     <div>
+      <input placeholder="表格权限角色" />
       <table border="1">
           <thead>
             <tr>
@@ -160,10 +169,26 @@ const yingyu = ref(100)
           <td v-for="(v,k) in stuKeys" :key="k">{{ student[k]}}</td>
           <td v-if="student.score >= 60" v-show="true">及格</td>
           <td v-if="student.score <= 59" v-show="true">挂科</td>
+          <td>
+            <button v-permissoin>查看</button>
+            <button v-permission style="color:blue">操作</button>
+            <button v-permission style="color:red">删除</button>
+          </td>
       </tr>
           </tbody>
       </table>
     </div>
+
+  <div>
+    <input v-model="test" v-debounce="newInput"/>
+  </div>
+  <div>
+      <input v-model="test" v-limit/>
+  </div>
+  <div>
+      <input v-model="test" v-limit:back/>
+  </div>
+
   </div>
 
 </template>
