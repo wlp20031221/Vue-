@@ -1,6 +1,10 @@
 <script setup>
 // 引入Vue的ref函数，用于创建响应式引用
 import {computed, reactive, ref} from 'vue'
+import Counter from './components/Counter.vue'
+import WeiBo from './components/WeiBo.vue'
+import Work from './components/Work.vue'
+import Moyu from './components/Moyu.vue'
 // 创建一个响应式引用，初始值为'装逼让你飞起来'
 const message = ref('装逼让你飞起来')
 // 创建一个响应式引用，初始值为包含HTML标签的字符串
@@ -109,6 +113,38 @@ const yingyu = ref(100)
     
   }
 
+  const wb = reactive([
+    {id:1,upName:'人民日报',blogContent:'123',forward:777,reply:666,like:888},
+    {id:2,upName:'新浪微博',blogContent:'我是第二条微博',forward:777,reply:666,like:888},
+    {id:3,upName:'央视新闻',blogContent:'我是第三条微博',forward:777,reply:666,like:888},
+  ])
+
+  const count1 = ref(3)
+  const count2 = ref(5)
+  const count3 = ref(7)
+
+  function count2receive(data){
+    count2.value += data
+  }
+  function count3receive(data){
+    count3.value += data
+  }
+
+ const receiveFontSize = ref(1)
+  function receive(data){
+    receiveFontSize.value += data
+  }
+
+  const current = ref('Moyu')
+  const components = {
+    'Moyu':Moyu,
+    'Work':Work
+  }
+  function switch(){
+    current.value = current.value == 'Moyu' ? 'Work' : 'Moyu'
+  }
+
+
 </script>
 
 <template>
@@ -188,6 +224,26 @@ const yingyu = ref(100)
   <div>
       <input v-model="test" v-limit:back/>
   </div>
+
+  <div>
+    <Counter :count="3" @event-name="(d) => {count1+=d}"/>
+    <Counter :count="5" @event-name="count2receive()"/>
+    <Counter :count="7" @event-name="count3receive()"/>
+  </div>
+    <div :style="{ fontSize: receiveFontSize + 'em'}">
+      <WeiBo v-for="weibo in wb" 
+        :key="weibo.id"
+        :upName="weibo.upName"
+        :blogContent="weibo.blogContent"
+        :forward="weibo.forward"
+        :reply="weibo.reply"
+        :like="weibo.like"
+        @father-listen="receive"
+      />
+    </div>
+
+    <component :is="Work"></component>
+    <button @click="switch()"></button>
 
   </div>
 

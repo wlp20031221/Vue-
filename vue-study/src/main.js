@@ -4,6 +4,16 @@ import App from './App.vue'
 
 const app =createApp(App)
 
+
+//自动聚焦
+app.directive('focus', {
+  mounted(el) {
+    el.focus(
+    )
+  }
+})
+
+
 //防抖指令实现
 app.directive('debounce', {
   mounted(el, binding) {
