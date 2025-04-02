@@ -1,6 +1,11 @@
 <script setup>
 // 引入Vue的ref函数，用于创建响应式引用
 import {computed, reactive, ref} from 'vue'
+import { ElMessageBox } from 'element-plus'
+import StudentInfo from './components/StudentInfo.vue'
+import FancyButton from './components/FancyButton.vue'
+import BaseLayout from './components/BaseLayout.vue'
+
 // 创建一个响应式引用，初始值为'装逼让你飞起来'
 const message = ref('装逼让你飞起来')
 // 创建一个响应式引用，初始值为包含HTML标签的字符串
@@ -109,10 +114,32 @@ const yingyu = ref(100)
     
   }
 
+  const handleDelete = (student) => {
+  ElMessageBox.confirm('确定要删除该学生吗？', '删除确认', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(() => {
+    const index = stu.findIndex(s => s.id === student.id)
+    if (index !== -1) stu.splice(index, 1)
+  })
+}
+
+
 </script>
 
 <template>
-  <div>
+ <div> 
+<BaseLayout>
+        <template #[dname]>Footer</template>
+        <template #headerSlot="{ text }">
+            {{ text }}
+        </template>
+        <template #default>Main</template>
+    </BaseLayout>
+    <FancyButton>Submit</FancyButton>
+    <StudentInfo />
+
     <!-- 使用双花括号插值语法显示message的值 -->
     <h1>{{ message }}</h1>
     <!-- 使用v-show指令控制元素的显示与隐藏，这里设置为false，元素不显示 -->
@@ -188,8 +215,11 @@ const yingyu = ref(100)
   <div>
       <input v-model="test" v-limit:back/>
   </div>
+ </div>
 
-  </div>
+
+
+
 
 </template>
 
